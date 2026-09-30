@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doa Petz - Encontrar Pets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="fundo-laranja">
+
+    <!-- Modal de Cadastro de Pet -->
+    <div id="modal-cadastro-pet" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-modal-pet">&times;</span>
+            <h2 class="titulo-modal">Cadastrar um Pet</h2>
+            <form id="form-cadastro-pet">
+                <div class="grupo-input">
+                    <label for="nome-pet">Nome do Pet</label>
+                    <input type="text" id="nome-pet" required placeholder="Ex: Bob, Mia...">
+                </div>
+                <div class="grupo-input">
+                    <label for="especie-pet">Espécie</label>
+                    <select id="especie-pet" required>
+                        <option value="">Selecione...</option>
+                        <option value="Cachorro">Cachorro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="grupo-input">
+                    <label for="descricao-pet">Descrição</label>
+                    <textarea id="descricao-pet" rows="3" required placeholder="É brincalhão? Calmo?"></textarea>
+                </div>
+                <button type="submit" class="botao-principal botao-login">Cadastrar Pet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="modal-login" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-modal">&times;</span>
+            <h2 class="titulo-modal">Acesse sua conta</h2>
+            <form id="form-login">
+                <div class="grupo-input">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="Digite seu e-mail">
+                </div>
+                <div class="grupo-input">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" required placeholder="Digite sua senha">
+                </div>
+                <button type="submit" class="botao-principal botao-login">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cabeçalho Dinâmico Correto -->
+    <header class="cabecalho">
+        <nav class="menu">
+            <a href="index.html">
+                <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            </a>
+
+            <!-- Estado 1: Visível quando DESLOGADO -->
+            <ul class="links-navegacao links-padrao" id="menu-deslogado">
+                <li><a href="">Entrar</a></li>
+                <li class="registrar"><a href="">Cadastrar</a></li>
+            </ul>
+
+            <!-- Estado 2: Visível quando LOGADO (Oculto por padrão via CSS) -->
+            <div class="perfil-cabecalho-detalhes" id="menu-logado" style="display: none;">
+                <div class="info-usuario">
+                    <img src="./Assets/homem-cachorro.jpeg" alt="Foto do Usuário" class="foto-perfil">
+                    <div class="dados-usuario">
+                        <span class="nome-usuario">The Rock</span>
+                        <span class="localizacao"><i class="fa-solid fa-location-dot"></i> Brooklin, São Paulo</span>
+                    </div>
+                </div>
+
+                 <div class="acoes-direita">
+                    <a href="index.html" class="icone-cabecalho" title="Ir para a Home">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                    <div class="icone-cabecalho" title="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+                    <!-- Botão de Sair unificado -->
+                    <div class="icone-cabecalho" id="btn-sair" title="Sair da Conta" style="cursor: pointer;">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="corpo-app">
+        <div class="cabecalho-busca">
+            <h1 class="titulo-app">Encontrar pets</h1>
+            <p class="descricao-app">Encontre um novo amigo ideal para ser seu melhor amigo!</p>
+            
+            <div class="barra-busca">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="busca-pet" placeholder="Descreva o pet">
+            </div>
+        </div>
+
+        <div class="grid-pets" id="grid-pets">
+            <!-- Pet 1 -->
+            <div class="cartao-pet">
+                <img src="./Assets/spot.jpg" alt="Spot">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>SPOT</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Labrador, 08 anos</p>
+                    <button class="btn-patinha"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+
+            <!-- Pet 2 -->
+            <div class="cartao-pet">
+                <img src="./Assets/bengal-p.webp" alt="Spancer">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Luna</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Bengal, 11 meses</p>
+                    <button class="btn-patinha btn-patinha-inativo"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+
+            <!-- Pet 3 -->
+            <div class="cartao-pet">
+                <img src="./Assets/raca-beagle.webp" alt="Georgia">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Georgia</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Beagle, 4 anos</p>
+                    <button class="btn-patinha btn-patinha-inativo"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+            
+            <!-- Pet 4 -->
+            <div class="cartao-pet">
+                <img src="./Assets/gato_mao.png" alt="Mingau">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Mingau</h3>
+                        <i class="fa-solid fa-mars icone-macho"></i>
+                    </div>
+                    <p>Gato SRD, 2 anos</p>
+                    <button class="btn-patinha"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+            
+            <!-- Pet 1 -->
+            <div class="cartao-pet">
+                <img src="./Assets/spot.jpg" alt="Spot">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>SPOT</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Labrador, 08 anos</p>
+                    <button class="btn-patinha"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+
+            <!-- Pet 2 -->
+            <div class="cartao-pet">
+                <img src="./Assets/bengal-p.webp" alt="Spancer">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Luna</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Bengal, 11 meses</p>
+                    <button class="btn-patinha btn-patinha-inativo"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+
+            <!-- Pet 3 -->
+            <div class="cartao-pet">
+                <img src="./Assets/raca-beagle.webp" alt="Georgia">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Georgia</h3>
+                        <i class="fa-solid fa-venus icone-femea"></i>
+                    </div>
+                    <p>Beagle, 4 anos</p>
+                    <button class="btn-patinha btn-patinha-inativo"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+            
+            <!-- Pet 4 -->
+            <div class="cartao-pet">
+                <img src="./Assets/gato_mao.png" alt="Mingau">
+                <div class="info-pet">
+                    <div class="linha-titulo">
+                        <h3>Mingau</h3>
+                        <i class="fa-solid fa-mars icone-macho"></i>
+                    </div>
+                    <p>Gato SRD, 2 anos</p>
+                    <button class="btn-patinha"><i class="fa-solid fa-paw"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="conteudo-rodape">
+            <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            <div class="redes-sociais">
+                <p>Confira nossas redes sociais</p>
+                <img class="icone-social" src="./Assets/facebook.png" alt="Facebook">
+                <img class="icone-social" src="./Assets/instagram.png" alt="Instagram">
+                <img class="icone-social" src="./Assets/whatsapp.png" alt="WhatsApp">
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
