@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doa Petz - Meu Perfil</title>
+    <!-- FontAwesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="pagina-detalhes">
+
+    <!-- Cabeçalho Logado Padronizado -->
+    <header class="cabecalho-detalhes">
+        <nav class="menu">
+            <a href="encontrar-pets.html">
+                <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            </a>
+            
+            <div class="perfil-cabecalho-detalhes">
+                <div class="info-usuario">
+                    <img src="./Assets/homem-cachorro.jpeg" alt="Foto do Usuário" class="foto-perfil">
+                    <div class="dados-usuario">
+                        <span class="nome-usuario">The Rock</span>
+                        <span class="localizacao"><i class="fa-solid fa-location-dot"></i> Brooklin, São Paulo</span>
+                    </div>
+                </div>
+
+                <div class="acoes-direita">
+                    <a href="encontrar-pets.html" class="icone-cabecalho" title="Voltar para Encontrar Pets">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                    <div class="icone-cabecalho" title="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+                    <!-- Botão de Sair unificado -->
+                    <div class="icone-cabecalho" id="btn-sair" title="Sair da Conta" style="cursor: pointer;">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Corpo Principal da Página de Perfil -->
+    <main class="corpo-detalhe-pet">
+        <div class="card-detalhe-container">
+            
+            <!-- Foto de Perfil Interativa -->
+            <div class="detalhe-imagem" style="text-align: center;">
+                <img src="./Assets/homem-cachorro.jpeg" alt="Foto de The Rock" id="foto-perfil-usuario" style="cursor: pointer;" title="Clique para trocar a foto">
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">(Clique na foto para alterar)</p>
+                
+                <!-- Input de arquivo escondido -->
+                <input type="file" id="input-nova-foto" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Informações do Usuário -->
+            <div class="detalhe-info">
+                <h1 class="nome-pet-titulo">The Rock</h1>
+                <p class="descricao-pet-texto">
+                    <i class="fa-solid fa-location-dot" style="color: #ff950d;"></i> Brooklin, São Paulo<br>
+                    <strong>E-mail:</strong> therock@email.com<br>
+                    <strong>Sobre mim:</strong> Apaixonado por animais, em busca de um novo companheiro de quatro patas para aventuras e muita diversão!
+                </p>
+                <div class="botoes-acao-pet">
+                    <button class="btn-adotar" id="btn-editar-perfil">Editar Perfil</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé Padronizado -->
+    <footer class="rodape">
+        <div class="conteudo-rodape">
+            <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            <div class="redes-sociais">
+                <p>Confira nossas redes sociais</p>
+                <img class="icone-social" src="./Assets/facebook.png" alt="Facebook">
+                <img class="icone-social" src="./Assets/instagram.png" alt="Instagram">
+                <img class="icone-social" src="./Assets/whatsapp.png" alt="WhatsApp">
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script da página de perfil para carregar e atualizar a foto em todos os lugares -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const imagemPerfil = document.getElementById("foto-perfil-usuario")
+            const inputNovaFoto = document.getElementById("input-nova-foto")
+            const fotosCabecalho = document.querySelectorAll(".foto-perfil")
+
+            // Carrega a foto salva na memória ao abrir a página
+            const fotoSalva = localStorage.getItem("fotoPerfilUsuario")
+            if (fotoSalva) {
+                if (imagemPerfil) imagemPerfil.src = fotoSalva
+                fotosCabecalho.forEach(function(foto) {
+                    foto.src = fotoSalva;
+                })
+            }
+
+            // Ação de clique para trocar a foto
+            if (imagemPerfil && inputNovaFoto) {
+                imagemPerfil.addEventListener("click", function() {
+                    inputNovaFoto.click();
+                });
+
+                inputNovaFoto.addEventListener("change", function(event) {
+                    const arquivo = event.target.files[0];
+                    if (arquivo) {
+                        const leitor = new FileReader();
+                        leitor.onload = function(e) {
+                            const base64 = e.target.result;
+                            if (imagemPerfil) imagemPerfil.src = base64;
+                            fotosCabecalho.forEach(function(foto) {
+                                foto.src = base64;
+                            });
+                            localStorage.setItem("fotoPerfilUsuario", base64);
+                            alert("Foto de perfil alterada com sucesso! 🐾");
+                        };
+                        leitor.readAsDataURL(arquivo);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doa Petz - Detalhes do Pet</title>
+    <!-- FontAwesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="pagina-detalhes">
+
+    <!-- Cabeçalho Logado -->
+    <header class="cabecalho-detalhes">
+        <nav class="menu">
+            <a href="encontrar-pets.html">
+                <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            </a>
+            
+            <div class="perfil-cabecalho-detalhes">
+                <div class="info-usuario">
+                    <img src="./Assets/homem-cachorro.jpeg" alt="Foto do Usuário" class="foto-perfil">
+                    <div class="dados-usuario">
+                        <span class="nome-usuario">The Rock</span>
+                        <span class="localizacao"><i class="fa-solid fa-location-dot"></i> Brooklin, São Paulo</span>
+                    </div>
+                </div>
+
+                <div class="acoes-direita">
+                    <a href="encontrar-pets.html" class="icone-cabecalho" title="Voltar para Encontrar Pets">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                    <div class="icone-cabecalho" title="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+                    <!-- Botão de Sair unificado -->
+                    <div class="icone-cabecalho" id="btn-sair" title="Sair da Conta" style="cursor: pointer;">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="corpo-detalhe-pet">
+        <div class="card-detalhe-container">
+            
+            <!-- Adicionamos um ID (imagem-pet) para o JavaScript conseguir trocar a foto -->
+            <div class="detalhe-imagem">
+                <img src="./Assets/luna2.webp" alt="Foto do Pet" id="imagem-pet">
+            </div>
+
+            <div class="detalhe-info">
+                <!-- Adicionamos um ID (nome-pet) para o JavaScript trocar o título -->
+                <h1 class="nome-pet-titulo" id="nome-pet">Luna</h1>
+                
+                <!-- Adicionamos um ID (descricao-pet) para o JavaScript trocar o texto -->
+                <p class="descricao-pet-texto" id="descricao-pet">
+                    Luna é uma gata encantadora, com pelo preto e branco, olhos verdes hipnotizantes e uma personalidade cativante. Ela é afetuosa, brincalhona e uma caçadora habilidosa.
+                </p>
+                
+                <div class="botoes-acao-pet">
+                    <button class="btn-ver-mais" id="btn-ver-mais">Ver Mais</button>
+                    <button class="btn-adotar" id="btn-adotar">Adotar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="conteudo-rodape">
+            <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            <div class="redes-sociais">
+                <p>Confira nossas redes sociais</p>
+                <img class="icone-social" src="./Assets/facebook.png" alt="Facebook">
+                <img class="icone-social" src="./Assets/instagram.png" alt="Instagram">
+                <img class="icone-social" src="./Assets/whatsapp.png" alt="WhatsApp">
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Dinâmico para carregar os dados do pet escolhido -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. Pega os dados que vieram no link da página (URL)
+            const parametros = new URLSearchParams(window.location.search);
+            const nomeDoPet = parametros.get("nome"); // Ex: "Spot", "Luna", "Hamtaro"
+            const fotoDoPet = parametros.get("foto"); // O link da foto
+
+            // 2. Criamos o nosso "dicionário" (banco de dados) com as descrições de cada pet
+            const descricoesPets = {
+                "SPOT": "Spot é um Labrador muito dócil e amigável de 08 anos. Adora correr no parque, é super paciente com crianças e está procurando uma família amorosa para curtir a terceira idade.",
+                "LUNA": "Luna é uma gata da raça Bengal, com 11 meses de idade. Extremamente curiosa, cheia de energia e adora brincar com bolinhas de corda.",
+                "GEORGIA": "Georgia é uma Beagle de 4 anos muito charmosa. Adora um bom passeio ao ar livre e é uma excelente companheira para quem gosta de caminhar.",
+                "MINGAU": "Mingau é um gato SRD de 2 anos, muito calmo, carinhoso e que adora tirar longos cochilos no sofá de casa.",
+                "DORA": "Dora é uma labradora muito alegre e brincalhona. Tem muita energia para dar e vender, sendo ideal para quem tem espaço.",
+                "HAMTARO": "Hamtaro é um hamster muito fofinho e ativo. Adora correr na rodinha e comer sementes.",
+                "LUFFY": "Luffy é um coelho muito dócil e tranquilo. Gosta de ficar quietinho ganhando carinho nas orelhas.",
+                "SUNNY": "Sunny é um gatinho muito esperto e curioso. Adora explorar os cantos da casa e interagir com as pessoas."
+            };
+
+            // 3. Se tivermos o nome do pet na URL, preenchemos os campos da tela
+            if (nomeDoPet) {
+                // Atualiza o título com o nome
+                const tituloH1 = document.getElementById("nome-pet");
+                if (tituloH1) {
+                    tituloH1.innerText = nomeDoPet; 
+                }
+
+                // Procura a descrição específica do pet usando o nome em letras maiúsculas
+                const textoDescricao = document.getElementById("descricao-pet");
+                if (textoDescricao) {
+                    // Se encontrar a descrição no nosso dicionário, usa ela. 
+                    // Se não encontrar, usa uma frase padrão.
+                    const nomeMaiusculo = nomeDoPet.toUpperCase();
+                    if (descricoesPets[nomeMaiusculo]) {
+                        textoDescricao.innerText = descricoesPets[nomeMaiusculo];
+                    } else {
+                        textoDescricao.innerText = nomeDoPet + " é um amiguinho muito especial à procura de um lar!";
+                    }
+                }
+            }
+
+            // 4. Se a URL tiver a foto do pet, atualiza a imagem principal
+            if (fotoDoPet) {
+                const imagemTag = document.getElementById("imagem-pet");
+                if (imagemTag) {
+                    imagemTag.src = fotoDoPet;
+                }
+            }
+
+            // 5. Botões de ação (Adotar e Ver Mais)
+            const btnAdotar = document.getElementById('btn-adotar');
+            const btnVerMais = document.getElementById('btn-ver-mais');
+
+            if (btnAdotar) {
+                btnAdotar.addEventListener('click', function() {
+                    alert('Parabéns! Sua solicitação de adoção foi iniciada. Entraremos em contato! 🐾');
+                });
+            }
+
+            if (btnVerMais) {
+                btnVerMais.addEventListener('click', function() {
+                    alert('Aqui você pode exibir informações adicionais de saúde, vacinas e histórico do pet!');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
