@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doa Petz - Meus Favoritos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body class="fundo-laranja">
+
+    <!-- Cabeçalho Logado -->
+    <header class="cabecalho">
+        <nav class="menu">
+            <a href="index.html">
+                <img class="logomarca" src="./Assets/doapetz-branco.png" alt="Logo DoaPetz">
+            </a>
+
+            <div class="perfil-cabecalho-detalhes" style="display: flex;">
+                <a href="perfil.html" style="text-decoration: none; color: inherit;">
+                    <div class="info-usuario" style="cursor: pointer;">
+                        <img src="./Assets/homem-cachorro.jpeg" alt="Foto do Usuário" class="foto-perfil"
+                            id="foto-perfil-cabecalho">
+                        <div class="dados-usuario">
+                            <span class="nome-usuario">Lucas</span>
+                            <span class="localizacao"><i class="fa-solid fa-location-dot"></i> São Paulo</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="acoes-direita">
+                    <!-- Ícone da Casa (Navegação) -->
+                    <a href="encontrar-pets.html" class="icone-cabecalho" title="Voltar para Encontrar Pets">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+
+                    <!-- NOVO: Botão de Favoritos (Estrela) apontando para favoritos.html -->
+                    <a href="favoritos.html" class="icone-cabecalho" title="Meus Favoritos">
+                        <i class="fa-solid fa-star"></i>
+                    </a>
+
+                    <!-- Ícone de Notificações -->
+                    <div class="icone-cabecalho" title="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+
+                    <!-- Botão de Sair -->
+                    <div class="icone-cabecalho" id="btn-sair" title="Sair da Conta" style="cursor: pointer;">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="corpo-app">
+        <div class="cabecalho-busca">
+            <h1 class="titulo-app">Meus Pets Favoritos</h1>
+            <p class="descricao-app">Aqui estão os amiguinhos que ganharam o seu coração!</p>
+        </div>
+
+        <!-- Esta caixa está vazia. O JavaScript vai preenchê-la! -->
+        <div class="grid-pets" id="caixa-dos-favoritos">
+
+        </div>
+    </main>
+
+    <!-- Script exclusivo para a página de favoritos -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Carregar foto de perfil (se existir)
+            const fotoSalva = localStorage.getItem("fotoPerfilUsuario");
+            if (fotoSalva) {
+                const fotoCabecalho = document.getElementById("foto-perfil-cabecalho");
+                if (fotoCabecalho) fotoCabecalho.src = fotoSalva;
+            }
+
+            // 2. Fazer Logout
+            const btnSair = document.getElementById("btn-sair");
+            if (btnSair) {
+                btnSair.addEventListener("click", function () {
+                    sessionStorage.removeItem("logado");
+                    alert("Você saiu da sua conta. Até logo! 🐾");
+                    window.location.href = "index.html";
+                });
+            }
+
+            // 3. LER A MEMÓRIA E DESENHAR OS PETS
+            const caixaFavoritos = document.getElementById("caixa-dos-favoritos");
+            const listaFavoritos = JSON.parse(localStorage.getItem('meusFavoritos')) || [];
+
+            if (listaFavoritos.length === 0) {
+                // Se não houver pets, mostramos uma mensagem amigável
+                caixaFavoritos.innerHTML = "<h3 style='color: #666; font-size: 20px;'>Ainda não tem nenhum pet favorito. Volte à página de pesquisa e encontre o seu novo amigo!</h3>";
+            } else {
+                // Se houver, desenhamos cada um deles
+                listaFavoritos.forEach(function (pet) {
+                    const cartaoHTML = `
+                        <div class="cartao-pet">
+                            <img src="${pet.imagem}" alt="${pet.nome}">
+                            <div class="info-pet">
+                                <div class="linha-titulo">
+                                    <h3>${pet.nome}</h3>
+                                    <i class="${pet.iconeSexo}"></i>
+                                </div>
+                                <p>${pet.descricao}</p>
+                                <button class="btn-patinha" onclick="removerFavorito('${pet.nome}')"><i class="fa-solid fa-paw"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    caixaFavoritos.innerHTML += cartaoHTML;
+                });
+            }
+        });
+
+        // 4. Função para remover o pet diretamente da página de favoritos
+        function removerFavorito(nomePetRemover) {
+            let listaFavoritos = JSON.parse(localStorage.getItem('meusFavoritos')) || [];
+            listaFavoritos = listaFavoritos.filter(pet => pet.nome !== nomePetRemover);
+            localStorage.setItem('meusFavoritos', JSON.stringify(listaFavoritos));
+
+            // Recarrega a página para o pet desaparecer da tela
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>
